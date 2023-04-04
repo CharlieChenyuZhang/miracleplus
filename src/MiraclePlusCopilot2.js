@@ -145,7 +145,7 @@ const MiraclePlusCopilot2 = () => {
   }
 
   useEffect(() => {
-    document.getElementsByTagName("title")[0].text = "Beta Fellowship";
+    document.getElementsByTagName("title")[0].text = "MiraclePlus Copilot";
   });
 
   return (
