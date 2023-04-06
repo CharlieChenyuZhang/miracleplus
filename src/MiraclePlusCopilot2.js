@@ -77,6 +77,7 @@ const MiraclePlusCopilot2 = () => {
     let onelineSummary;
     setIsLoading(true);
     try {
+      
       const prompt = 
       `Task: Generate potential business ideas based on an individual's background 
        and relevant industries, taking into account location factors and recent 
