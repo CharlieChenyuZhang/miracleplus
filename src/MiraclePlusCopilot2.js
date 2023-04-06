@@ -4,6 +4,7 @@ import logo from "./miracleplus-logo.png";
 import TextField from "@mui/material/TextField";
 import CircularProgress from "@mui/material/CircularProgress";
 import { Configuration, OpenAIApi } from "openai";
+import Alert from "@mui/material/Alert";
 
 const Header = styled.div`
   margin-top: 10rem;
@@ -61,13 +62,14 @@ const openai = new OpenAIApi(configuration);
 
 const MiraclePlusCopilot2 = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [portfolios, setPortfolios] = useState("Enter text here...");
+  const [portfolios, setPortfolios] = useState("");
   const [ideas, setIdeas] = useState("");
 
   const callOpenAI = async (prompt) => {
     const completion = await openai.createChatCompletion({
       model: "gpt-3.5-turbo",
       messages: [{ role: "user", content: prompt }],
+      temperature: 0,
     });
     return completion;
   };
@@ -82,7 +84,7 @@ const MiraclePlusCopilot2 = () => {
        developments and opportunities. Evaluate the feasibility of each idea, considering 
        factors such as product market fit, people mission fit, market potential, TAM, 
        cost, fundraising needs, and any other relevant factors.
-      Output: An HTML table with each potential idea and a score out of 100 for its 
+      Output: An mobile responsive HTML table with each potential idea and a score out of 100 for its 
       feasibility, along with an explanation of the score and the metrics used to evaluate it.
       For each metric, make it out of 100. You don't have to use whole numbers. Provide a
       reasoning for each of the metrics instead of only providing a number. Include
@@ -114,14 +116,14 @@ const MiraclePlusCopilot2 = () => {
       onelineSummary = res.data.choices[0].message.content;
 
       // Create a blob object from the HTML content
-      const blob = new Blob([onelineSummary], { type: "text/html" });
-      const url = URL.createObjectURL(blob);
+      // const blob = new Blob([onelineSummary], { type: "text/html" });
+      // const url = URL.createObjectURL(blob);
 
-      // Create a download link and click it programmatically to download the file
-      const a = document.createElement("a");
-      a.download = "result.html";
-      a.href = url;
-      a.click();
+      // // Create a download link and click it programmatically to download the file
+      // const a = document.createElement("a");
+      // a.download = "result.html";
+      // a.href = url;
+      // a.click();
     } catch (error) {
       if (error.response) {
         console.error(error.response.status, error.response.data);
@@ -140,6 +142,7 @@ const MiraclePlusCopilot2 = () => {
 
   return (
     <div>
+      <Alert severity="info">We are in private beta.</Alert>
       <div className="container">
         <Header>
           <Logo src={logo} alt="listening" />
@@ -159,11 +162,10 @@ const MiraclePlusCopilot2 = () => {
           >
             <TextField
               id="outlined-multiline-static"
-              label="Drop your resume"
+              label="Input your resume..."
               multiline
               fullWidth
               rows={4}
-              defaultValue="Default Value"
               value={portfolios}
               onChange={(e) => {
                 setPortfolios(e.target.value);
@@ -172,15 +174,19 @@ const MiraclePlusCopilot2 = () => {
           </div>
 
           <div style={{ display: "flex", justifyContent: "center" }}>
-            <Button
-              disabled={isLoading ? true : false}
-              onClick={async () => {
-                const ideas = await generateIdeas();
-                setIdeas(ideas);
-              }}
-            >
-              Generate Ideas
-            </Button>
+            {!isLoading ? (
+              <Button
+                disabled={isLoading ? true : false}
+                onClick={async () => {
+                  const ideas = await generateIdeas();
+                  setIdeas(ideas);
+                }}
+              >
+                Generate Ideas
+              </Button>
+            ) : (
+              <CircularProgress style={{ marginTop: "50px" }} />
+            )}
           </div>
 
           <div
@@ -190,13 +196,13 @@ const MiraclePlusCopilot2 = () => {
               marginTop: "50px",
             }}
           >
-            <div
-              dangerouslySetInnerHTML={{
-                __html: ideas,
-              }}
-            />
-
-            {isLoading && <CircularProgress style={{ marginTop: "50px" }} />}
+            {!isLoading && (
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: ideas,
+                }}
+              />
+            )}
           </div>
         </Header>
       </div>
