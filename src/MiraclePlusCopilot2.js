@@ -77,9 +77,7 @@ const MiraclePlusCopilot2 = () => {
     let onelineSummary;
     setIsLoading(true);
     try {
-      
-      const prompt = 
-      `Task: Generate potential business ideas based on an individual's background 
+      const prompt = `Task: Generate potential business ideas based on an individual's background 
        and relevant industries, taking into account location factors and recent 
        developments and opportunities. Evaluate the feasibility of each idea, considering 
        factors such as product market fit, people mission fit, market potential, TAM, 
@@ -93,7 +91,7 @@ const MiraclePlusCopilot2 = () => {
       If the resume inputted was in Chinese, generate the results in Chinese. Same with
       other languages.
       Follow up under the ideas section with a personal analysis table with strength and
-      weakenesses, past experiences, storytelling, and any additional factors that my be relevant.
+      weakenesses, past experiences, storytelling, and any additional factors that may be relevant.
       After that, with a 30px margin top: Create visuals at the end of the 
       table for the personal analysis. Use a gradient that starts from white 
       and ends at (#017dfe). Use an arrow with label and a number indicator to point out 
