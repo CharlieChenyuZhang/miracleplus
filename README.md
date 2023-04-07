@@ -1,4 +1,4 @@
-# how to run the project
+# how to run the project.
 
 step 1: install packages by running
 
