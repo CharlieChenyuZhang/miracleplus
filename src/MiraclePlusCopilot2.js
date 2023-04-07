@@ -71,7 +71,7 @@ const configuration = new Configuration({
 
 const openai = new OpenAIApi(configuration);
 
-const MiraclePlusCopilot2 = () => {
+const MiraclePlusCopilot = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [portfolios, setPortfolios] = useState("");
   const [ideas, setIdeas] = useState("");
@@ -233,4 +233,4 @@ const MiraclePlusCopilot2 = () => {
   );
 };
 
-export default MiraclePlusCopilot2;
+export default MiraclePlusCopilot;
