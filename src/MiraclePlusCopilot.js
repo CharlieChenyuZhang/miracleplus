@@ -169,7 +169,7 @@ const MiraclePlusCopilot = () => {
   return (
     <div>
       <Box sx={{ flexGrow: 1 }}>
-        <AppBar position="static">
+        <AppBar position="fixed">
           <Toolbar>
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
               MiraclePlus
@@ -193,9 +193,9 @@ const MiraclePlusCopilot = () => {
                 </Button>
               ))}
           </Toolbar>
+          <Alert severity="info">We are in private beta.</Alert>
         </AppBar>
       </Box>
-      <Alert severity="info">We are in private beta.</Alert>
       <div className="container">
         <Header>
           <Logo src={logo} alt="listening" />
