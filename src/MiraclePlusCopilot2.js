@@ -6,6 +6,13 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { Configuration, OpenAIApi } from "openai";
 import Alert from "@mui/material/Alert";
 
+import htmlToPdfmake from "html-to-pdfmake";
+import pdfMake from "pdfmake/build/pdfmake";
+import pdfFonts from "pdfmake/build/vfs_fonts";
+
+// Set the pdfMake fonts
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
+
 const Header = styled.div`
   margin-top: 10rem;
 `;
@@ -46,6 +53,10 @@ const Button = styled.button`
     transform: translateY(1px) rotateX(0deg);
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
   }
+  &:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
   @media (min-width: 768px) {
     min-width: 120px;
     padding: 0 25px;
@@ -75,7 +86,6 @@ const MiraclePlusCopilot2 = () => {
   };
 
   async function generateIdeas() {
-    console.log("ideas generated");
     let onelineSummary;
     setIsLoading(true);
     try {
@@ -114,16 +124,6 @@ const MiraclePlusCopilot2 = () => {
 
       const res = await callOpenAI(prompt);
       onelineSummary = res.data.choices[0].message.content;
-
-      // Create a blob object from the HTML content
-      // const blob = new Blob([onelineSummary], { type: "text/html" });
-      // const url = URL.createObjectURL(blob);
-
-      // // Create a download link and click it programmatically to download the file
-      // const a = document.createElement("a");
-      // a.download = "result.html";
-      // a.href = url;
-      // a.click();
     } catch (error) {
       if (error.response) {
         console.error(error.response.status, error.response.data);
@@ -139,6 +139,19 @@ const MiraclePlusCopilot2 = () => {
   useEffect(() => {
     document.getElementsByTagName("title")[0].text = "MiraclePlus Copilot";
   });
+
+  const exportToPDF = (content) => {
+    const pdfContent = htmlToPdfmake(content);
+
+    const documentDefinition = {
+      content: pdfContent,
+      pageSize: "LETTER",
+      pageOrientation: "portrait",
+      pageMargins: [40, 60, 40, 60],
+    };
+
+    pdfMake.createPdf(documentDefinition).download("exported-content.pdf");
+  };
 
   return (
     <div>
@@ -175,15 +188,25 @@ const MiraclePlusCopilot2 = () => {
 
           <div style={{ display: "flex", justifyContent: "center" }}>
             {!isLoading ? (
-              <Button
-                disabled={isLoading ? true : false}
-                onClick={async () => {
-                  const ideas = await generateIdeas();
-                  setIdeas(ideas);
-                }}
-              >
-                Generate Ideas
-              </Button>
+              <>
+                <Button
+                  disabled={isLoading ? true : false}
+                  onClick={async () => {
+                    setIdeas(await generateIdeas());
+                  }}
+                >
+                  Generate Ideas
+                </Button>
+                <Button
+                  style={{ marginLeft: "20px" }}
+                  disabled={!ideas ? true : false}
+                  onClick={() => {
+                    exportToPDF(ideas);
+                  }}
+                >
+                  Download PDF
+                </Button>
+              </>
             ) : (
               <CircularProgress style={{ marginTop: "50px" }} />
             )}
