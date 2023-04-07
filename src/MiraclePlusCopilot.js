@@ -101,28 +101,31 @@ const MiraclePlusCopilot = () => {
        and opportunities. Evaluate feasibility with a score out of 100, using 
        metrics such as product-market fit, TAM, cost, fundraising needs, and 
        more. Output an HTML table in user's language. Include personal analysis 
-       and co-founder suggestions. Use visuals to show relevance, usefulness, 
-       uniqueness, virality, and willingness to buy. Use a light blue gradient 
-       and arrow indicators. Multiple rows for multiple ideas. Bold column 
+       and co-founder suggestions. Multiple rows for multiple ideas. Bold column 
        title with light blue background. Make visuals aesthetically pleasing 
        with good spacing. Refer to the user by their first name and use their 
-       resume (${portfolios}) to inform the evaluation. Evaluate each idea with 
+       input (${portfolios}) to inform the evaluation. Evaluate each idea with 
        its feasibility and include a brief explanation of the factors that 
        contribute to the feasibility score.
        Output html for the below:
        Potential Business Ideas for name (#017dfe header, white text)
-       1. [idea 1] (bold, black text)
-       Feasibility Score: 82, Product Market Fit (PMF): 85 -, People Mission Fit 
-       (PMiF): 80 - ,Market Potential: 85 - ,Total Addressable Market (TAM): 75 
-       -Cost: 70 - Fundraising Needs: 90 -, Other Factors: 70 -  (normal font in bullet point)
-       The cofounder [user_name] should find (bold) - 
+       1. [idea 1] (bold, black text) give a score with an analysis for each of the below
+       Feasibility Score: , Product Market Fit (PMF):  -, People Mission Fit 
+       (PMiF):  - ,Market Potential:  - ,Total Addressable Market (TAM): 
+       -Cost:  - Fundraising Needs:  -, Other Factors:  -  (normal font in bullet point)
+       
+       In a new section output the below as a table with #017dfe header & white text
+       what you will do, why this idea is important, why now is the right time, how you will execute it, 
+       and why you are uniquely qualified to lead this venture 
+       
+       next line, The cofounder [user_name] should find (bold) - 
        Where to find co-founders - 
        repeat for ideas 2 & 3
-
        Personal Analysis (large header)
        table with Factors, Score, Comments column (#017dfe header, white text)
        rows with Strengths, weaknesses, past experiences, storytelling (bold)
        `;
+
 
       const res = await callOpenAI(prompt);
       onelineSummary = res.data.choices[0].message.content;
