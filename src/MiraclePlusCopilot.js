@@ -97,38 +97,32 @@ const MiraclePlusCopilot = () => {
     let onelineSummary;
     setIsLoading(true);
     try {
-      const prompt = `Task: Generate potential business ideas based on an individual's background 
-       and relevant industries, taking into account location factors and recent 
-       developments and opportunities. Evaluate the feasibility of each idea, considering 
-       factors such as product market fit, people mission fit, market potential, TAM, 
-       cost, fundraising needs, and any other relevant factors.
-      Output: An mobile responsive HTML table with each potential idea and a score out of 100 for its 
-      feasibility, along with an explanation of the score and the metrics used to evaluate it.
-      For each metric, make it out of 100. You don't have to use whole numbers. Provide a
-      reasoning for each of the metrics instead of only providing a number. Include
-      information of what types of co-founders the user should be looking for and 
-      where they may find them. 
-      If the resume inputted was in Chinese, generate the results in Chinese. Same with
-      other languages.
-      Follow up under the ideas section with a personal analysis table with strength and
-      weakenesses, past experiences, storytelling, and any additional factors that may be relevant.
-      After that, with a 30px margin top: Create visuals at the end of the 
-      table for the personal analysis. Use a gradient that starts from white 
-      and ends at (#017dfe). Use an arrow with label and a number indicator to point out 
-      where each lands. Make sure the number lands on the bar.
-      
-      AT THE VERY END OF THE DOC with a 30px margin top: Create visuals at the end of the 
-      table for relevance of the problem, usefullness of the solution, uniqueness, virality, 
-      and willingness to buy using a light blue theme. Use a gradient that starts from white 
-      and ends at (#017dfe). Use an arrow with label and a number indicator to point out 
-      where each lands. Make sure the number lands on the bar.
-      Refer to the user by their first name and use their resume (${portfolios}) to inform the evaluation.
-      Multiple rows should be provided for multiple potential ideas.
-      For each idea, evaluate its feasibility and include a brief explanation of the factors 
-      that contribute to the feasibility score.
-      The column title of the result table should be bold and have a light blue background (#017dfe).
-      Make sure the text that is on white background does not blend in with the background.
-      Make the visual aesthetically pleasing with good spacing.`;
+      const prompt = `Task: Generate business ideas based on user's background, location,
+       and opportunities. Evaluate feasibility with a score out of 100, using 
+       metrics such as product-market fit, TAM, cost, fundraising needs, and 
+       more. Output an HTML table in user's language. Include personal analysis 
+       and co-founder suggestions. Use visuals to show relevance, usefulness, 
+       uniqueness, virality, and willingness to buy. Use a light blue gradient 
+       and arrow indicators. Multiple rows for multiple ideas. Bold column 
+       title with light blue background. Make visuals aesthetically pleasing 
+       with good spacing. Refer to the user by their first name and use their 
+       resume (${portfolios}) to inform the evaluation. Evaluate each idea with 
+       its feasibility and include a brief explanation of the factors that 
+       contribute to the feasibility score.
+       Output html for the below:
+       Potential Business Ideas for name (#017dfe header, white text)
+       1. [idea 1] (bold, black text)
+       Feasibility Score: 82, Product Market Fit (PMF): 85 -, People Mission Fit 
+       (PMiF): 80 - ,Market Potential: 85 - ,Total Addressable Market (TAM): 75 
+       -Cost: 70 - Fundraising Needs: 90 -, Other Factors: 70 -  (normal font in bullet point)
+       The cofounder [user_name] should find (bold) - 
+       Where to find co-founders - 
+       repeat for ideas 2 & 3
+
+       Personal Analysis (large header)
+       table with Factors, Score, Comments column (#017dfe header, white text)
+       rows with Strengths, weaknesses, past experiences, storytelling (bold)
+       `;
 
       const res = await callOpenAI(prompt);
       onelineSummary = res.data.choices[0].message.content;
