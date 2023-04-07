@@ -161,7 +161,16 @@ const MiraclePlusCopilot = () => {
     pdfMake.createPdf(documentDefinition).download("exported-content.pdf");
   };
 
-  const { loginWithRedirect } = useAuth0();
+  // Auth0
+  const {
+    loginWithRedirect,
+    loginWithPopup,
+    logout,
+    isAuthenticated,
+    isLoading: authLoading,
+  } = useAuth0();
+
+  const login = () => loginWithPopup();
 
   return (
     <div>
@@ -171,9 +180,24 @@ const MiraclePlusCopilot = () => {
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
               MiraclePlus
             </Typography>
-            <Button color="inherit" onClick={() => loginWithRedirect()}>
-              Login
-            </Button>
+            {authLoading && "Loading ..."}
+            {!authLoading &&
+              (isAuthenticated ? (
+                <Button
+                  color="inherit"
+                  onClick={() =>
+                    logout({
+                      logoutParams: { returnTo: window.location.origin },
+                    })
+                  }
+                >
+                  Logout
+                </Button>
+              ) : (
+                <Button color="inherit" onClick={() => login()}>
+                  Login
+                </Button>
+              ))}
           </Toolbar>
         </AppBar>
       </Box>
@@ -214,7 +238,10 @@ const MiraclePlusCopilot = () => {
                 <ActionButton
                   disabled={isLoading ? true : false}
                   onClick={async () => {
-                    setIdeas(await generateIdeas());
+                    if (!isAuthenticated) {
+                      login();
+                    }
+                    isAuthenticated && setIdeas(await generateIdeas());
                   }}
                 >
                   Generate Ideas
