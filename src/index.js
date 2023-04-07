@@ -2,12 +2,21 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./MiraclePlusCopilot";
+import { Auth0Provider } from "@auth0/auth0-react";
 import reportWebVitals from "./reportWebVitals";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <App />
+    <Auth0Provider
+      domain="dev-vq2w10sh2xsqi45c.us.auth0.com"
+      clientId="suDqGFtVDKOmLuQ7gdV7vxUqtM11AOOK"
+      authorizationParams={{
+        redirect_uri: window.location.origin,
+      }}
+    >
+      <App />
+    </Auth0Provider>
   </React.StrictMode>
 );
 

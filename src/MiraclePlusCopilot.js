@@ -10,6 +10,14 @@ import htmlToPdfmake from "html-to-pdfmake";
 import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
 
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
+
+import { useAuth0 } from "@auth0/auth0-react";
+
 // Set the pdfMake fonts
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
@@ -25,7 +33,7 @@ const Logo = styled.img`
   margin-right: auto;
 `;
 
-const Button = styled.button`
+const ActionButton = styled.button`
   background-color: #017dfe;
   border: none;
   border-radius: 30px;
@@ -153,16 +161,30 @@ const MiraclePlusCopilot = () => {
     pdfMake.createPdf(documentDefinition).download("exported-content.pdf");
   };
 
+  const { loginWithRedirect } = useAuth0();
+
   return (
     <div>
+      <Box sx={{ flexGrow: 1 }}>
+        <AppBar position="static">
+          <Toolbar>
+            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+              MiraclePlus
+            </Typography>
+            <Button color="inherit" onClick={() => loginWithRedirect()}>
+              Login
+            </Button>
+          </Toolbar>
+        </AppBar>
+      </Box>
       <Alert severity="info">We are in private beta.</Alert>
       <div className="container">
         <Header>
           <Logo src={logo} alt="listening" />
           <div style={{ marginTop: "50px", textAlign: "center" }}>
             <strong>
-              Unleash your unique abilities, ignite your deepest passions, and
-              together, let's transform the world.
+              Igniting your entrepreneurial spark with MiraclePlus by weaving
+              your background into visionary startups with ChatGPT!
             </strong>
           </div>
 
@@ -189,15 +211,15 @@ const MiraclePlusCopilot = () => {
           <div style={{ display: "flex", justifyContent: "center" }}>
             {!isLoading ? (
               <>
-                <Button
+                <ActionButton
                   disabled={isLoading ? true : false}
                   onClick={async () => {
                     setIdeas(await generateIdeas());
                   }}
                 >
                   Generate Ideas
-                </Button>
-                <Button
+                </ActionButton>
+                <ActionButton
                   style={{ marginLeft: "20px" }}
                   disabled={!ideas ? true : false}
                   onClick={() => {
@@ -205,7 +227,7 @@ const MiraclePlusCopilot = () => {
                   }}
                 >
                   Download PDF
-                </Button>
+                </ActionButton>
               </>
             ) : (
               <CircularProgress style={{ marginTop: "50px" }} />
