@@ -115,7 +115,9 @@ const MiraclePlusCopilot = () => {
        Feasibility Score: 82, Product Market Fit (PMF): 85 -, People Mission Fit 
        (PMiF): 80 - ,Market Potential: 85 - ,Total Addressable Market (TAM): 75 
        -Cost: 70 - Fundraising Needs: 90 -, Other Factors: 70 -  (normal font in bullet point)
-       The cofounder [user_name] should find (bold) - 
+       what you will do, why this idea is important, why now is the right time, how you will execute it, 
+       and why you are uniquely qualified to lead this venture (output as a table)
+       next line, The cofounder [user_name] should find (bold) - 
        Where to find co-founders - 
        repeat for ideas 2 & 3
 
