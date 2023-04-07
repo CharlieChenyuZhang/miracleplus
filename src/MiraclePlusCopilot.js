@@ -114,7 +114,7 @@ const MiraclePlusCopilot = () => {
        (PMiF):  - ,Market Potential:  - ,Total Addressable Market (TAM): 
        -Cost:  - Fundraising Needs:  -, Other Factors:  -  (normal font in bullet point)
        what you will do, why this idea is important, why now is the right time, how you will execute it, 
-       and why you are uniquely qualified to lead this venture (output as a table)
+       and why you are uniquely qualified to lead this venture (output as a table with #017dfe header & white text)
        next line, The cofounder [user_name] should find (bold) - 
        Where to find co-founders - 
        repeat for ideas 2 & 3
