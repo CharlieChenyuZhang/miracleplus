@@ -83,6 +83,9 @@ const MiraclePlusCopilot = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [portfolios, setPortfolios] = useState("");
   const [ideas, setIdeas] = useState("");
+  const [domain, setDomain] = useState("");
+  const [passion, setPassion] = useState("");
+  const [name, setName] = useState("");
 
   const callOpenAI = async (prompt) => {
     const completion = await openai.createChatCompletion({
@@ -97,32 +100,29 @@ const MiraclePlusCopilot = () => {
     let onelineSummary;
     setIsLoading(true);
     try {
-      const prompt = `Task: Generate business ideas based on user's background, location,
-       and opportunities. Evaluate feasibility with a score out of 100, using 
-       metrics such as product-market fit, TAM, cost, fundraising needs, and 
-       more. Output an HTML table in user's language. Include personal analysis 
-       and co-founder suggestions. Multiple rows for multiple ideas. Bold column 
-       title with light blue background. Make visuals aesthetically pleasing 
-       with good spacing. Refer to the user by their first name and use their 
-       resume (${portfolios}) to inform the evaluation. Evaluate each idea with 
-       its feasibility and include a brief explanation of the factors that 
-       contribute to the feasibility score.
-       Output html for the below:
-       Potential Business Ideas for name (#017dfe header, white text)
-       1. [idea 1] (bold, black text) give a score with an analysis for each of the below
-       Feasibility Score: , Product Market Fit (PMF):  -, People Mission Fit 
-       (PMiF):  - ,Market Potential:  - ,Total Addressable Market (TAM): 
-       -Cost:  - Fundraising Needs:  -, Other Factors:  -  (normal font in bullet point)
-       what you will do, why this idea is important, why now is the right time, how you will execute it, 
-       and why you are uniquely qualified to lead this venture (output as a table with #017dfe header & white text)
-       next line, The cofounder [user_name] should find (bold) - 
-       Where to find co-founders - 
-       repeat for ideas 2 & 3
+      const prompt = 
+      `Task:
+       Act as an expert in (${domain}) domain, help a startup to generate a business idea based on user's background, location, opportunities and passion:(${passion}). 
+       Evaluate feasibility , using metrics such as product-market fit, TAM, cost, fundraising needs, and more. 
+       Evaluate what you will do, why this idea is important, why now is the right time, how you will execute it, and why you are uniquely qualified to lead this venture for each idea.
+       Output an HTML table in the user's language. Include personal analysis and co-founder suggestions. Multiple rows for multiple ideas. 
+       Bold column title with light blue background. Make visuals aesthetically pleasing with good spacing. 
+       Refer to the user by their name and use their resume (${portfolios}) to inform the evaluation.
+       Evaluate each idea with its feasibility and briefly explain the factors contributing to the feasibility score.
+       Output HTML for the below:
+       Give out a analysis of this domain and potential chances
+       Potential Business Ideas for (${name}) (#017dfe header, white text)
+       1. [idea 1(give out the idea)] (bold, black text) 
+       (1)first output as the normal font in bullet point, give a score out of 100 with an analysis for each of the below: Feasibility Score: -, Product Market Fit (PMF):  -, People Mission Fit(PMiF):  - , Market Potential:  - 
+       (2)second, output as a table with #017dfe header & white text: what you will do, why this idea is important, why now is the right time, how you will execute it, and why you are uniquely qualified to lead this venture for each idea
+       (3)third, give out The cofounder (${name}) should find (bold) - Where to find co-founders - 
+       repeat for ideas 2
 
        Personal Analysis (large header)
        table with Factors, Score, Comments column (#017dfe header, white text)
        rows with Strengths, weaknesses, past experiences, storytelling (bold)
        `;
+
 
       const res = await callOpenAI(prompt);
       onelineSummary = res.data.choices[0].message.content;
@@ -205,10 +205,29 @@ const MiraclePlusCopilot = () => {
               your background into visionary startups with ChatGPT!
             </strong>
           </div>
-
           <div
             style={{
-              margin: "50px 0",
+              margin: "10px 0",
+              display: "flex",
+              justifyContent: "center",
+            }}
+          ></div>
+
+
+          <TextField
+              id="outlined-multiline-static"
+              label="Input your name"
+              multiline
+              width={3}
+              rows={1}
+              value={name}
+              onChange={(e) => {
+                setName(e.target.value);
+              }}
+            />
+          <div
+            style={{
+              margin: "10px 0",
               display: "flex",
               justifyContent: "center",
             }}
@@ -222,6 +241,28 @@ const MiraclePlusCopilot = () => {
               value={portfolios}
               onChange={(e) => {
                 setPortfolios(e.target.value);
+              }}
+            />
+            <TextField
+              id="outlined-multiline-static"
+              label="Input ideal domain..."
+              multiline
+              fullWidth
+              rows={4}
+              value={domain}
+              onChange={(e) => {
+                setDomain(e.target.value);
+              }}
+            />
+            <TextField
+              id="outlined-multiline-static"
+              label="Input your passion..."
+              multiline
+              fullWidth
+              rows={4}
+              value={passion}
+              onChange={(e) => {
+                setPassion(e.target.value);
               }}
             />
           </div>
